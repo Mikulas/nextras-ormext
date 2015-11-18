@@ -57,6 +57,24 @@ class PostgresArrayTest extends TestCase
 	}
 
 
+	public function testParseFails()
+	{
+		$id = function($a) {return $a;};
+
+		Assert::exception(function() use ($id) {
+			PgArray::parse('pre {}', $id);
+		}, PgArrayException::class, '~first token~i');
+
+		Assert::exception(function() use ($id) {
+			PgArray::parse('{} post', $id);
+		}, PgArrayException::class, '~last token~i');
+
+		Assert::exception(function() use ($id) {
+			PgArray::parse('{ " }', $id);
+		}, PgArrayException::class, '~Malformed~i');
+	}
+
+
 	public function testSerializeString()
 	{
 		$fromString = function($partial) {

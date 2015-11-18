@@ -24,10 +24,6 @@ use Nextras\Dbal\Drivers\IDriver;
 class PgArray
 {
 
-	const TYPE_STRING = 'string'; // TODO
-	const TYPE_INTEGER = 'integer';
-	const TYPE_FLOAT = 'float';
-
 	/** @internal */
 	const T_OPEN = 1;
 	/** @internal */
@@ -141,7 +137,7 @@ class PgArray
 				$values[] = $transform($value);
 
 			} else {
-				assert('FALSE', "'$value' could not be tokenized");
+				throw PgArrayException::malformedInput();
 			}
 
 			$previousType = $type;

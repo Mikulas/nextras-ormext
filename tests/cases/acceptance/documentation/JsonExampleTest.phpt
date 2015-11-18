@@ -4,7 +4,7 @@
  * @testCase
  */
 
-namespace Mikulas\OrmExt\Documentation;
+namespace Mikulas\OrmExt\Tests\Documentation;
 
 use Mockery;
 use NextrasTests\Orm\TestCase;

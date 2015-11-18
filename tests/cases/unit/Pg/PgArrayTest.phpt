@@ -4,10 +4,12 @@
  * @testCase
  */
 
-namespace Mikulas\OrmExt\Pg;
+namespace Mikulas\OrmExt\Tests\Pg;
 
 use DateTimeImmutable;
 use DateTimeZone;
+use Mikulas\OrmExt\Pg\PgArray;
+use Mikulas\OrmExt\Pg\PgArrayException;
 use Mockery;
 use NextrasTests\Orm\TestCase;
 use Tester\Assert;

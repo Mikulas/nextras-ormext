@@ -4,8 +4,9 @@
  * @testCase
  */
 
-namespace Mikulas\OrmExt\Pg;
+namespace Mikulas\OrmExt\Tests\Pg;
 
+use Mikulas\OrmExt\Pg\CompositeType;
 use Mockery;
 use NextrasTests\Orm\TestCase;
 use Tester\Assert;

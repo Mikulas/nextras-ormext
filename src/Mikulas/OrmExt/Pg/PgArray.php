@@ -41,7 +41,7 @@ class PgArray
 	 * @param bool     $castEmptyToNull
 	 * @return NULL|string
 	 */
-	public static function serialize(array $input = NULL, callable $transform , $castEmptyToNull = FALSE)
+	public static function serialize(array $input = NULL, callable $transform, $castEmptyToNull = FALSE)
 	{
 		if ($input === NULL || ($castEmptyToNull && !$input)) {
 			return NULL;

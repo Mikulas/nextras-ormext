@@ -1,5 +1,33 @@
 # Features
 
+## `MappingFactory`
+
+`StorageReflection` decorator. Simplifies mapping definitions.
+
+### `MappingFactory` Example
+
+```sql
+CREATE TABLE "notes" (
+    "content" JSONB NOT NULL
+);
+```
+
+```php
+class NotesMapper extends Mapper
+{
+
+	protected function createStorageReflection()
+	{
+		$factory = new MappingFactory(parent::createStorageReflection());
+		$factory->addJsonMapping('content');
+
+		return $factory->getReflection();
+	}
+
+}
+```
+
+
 ## `PgArray`
 
 Adds support for [PostgreSQL array types](http://www.postgresql.org/docs/9.4/static/arrays.html)

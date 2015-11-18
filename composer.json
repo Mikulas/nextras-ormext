@@ -12,7 +12,8 @@
 		"php": ">=5.6",
 		"nextras/dbal": "~1.0.1",
 		"nextras/orm": "~1.1.4",
-		"nette/tokenizer": "~2.2"
+		"nette/tokenizer": "~2.2",
+		"nette/utils": "~2.2"
 	},
 	"require-dev": {
 		"tracy/tracy": "~2.3",
@@ -21,7 +22,7 @@
 		"mockery/mockery": "~0.9"
 	},
 	"autoload": {
-		"psr-4": { "Mikulas\\Orm\\PgExt\\": "src/" }
+		"psr-4": { "Mikulas\\OrmExt\\": "src/" }
 	},
 	"autoload-dev": {
 		"classmap": [

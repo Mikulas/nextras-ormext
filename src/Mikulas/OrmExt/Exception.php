@@ -1,6 +1,6 @@
 <?php
 
-namespace Mikulas\Orm\PgExt;
+namespace Mikulas\OrmExt;
 
 
 interface Exception

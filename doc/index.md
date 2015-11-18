@@ -1,14 +1,17 @@
 # Features
 
-## `MappingFactory`
+- [`Json`](#Json)
+- [`PgArray`](#PgArray)
+- [`CompositeType`](#CompositeType)
+- [`MappingFactory`](#MappingFactory)
 
-`StorageReflection` decorator. Simplifies mapping definitions.
+## `Json`
 
-### `MappingFactory` Example
+### `Json` Example
 
 ```sql
 CREATE TABLE "notes" (
-    "content" JSONB NOT NULL
+	"content" JSONB NOT NULL
 );
 ```
 
@@ -16,15 +19,19 @@ CREATE TABLE "notes" (
 class NotesMapper extends Mapper
 {
 
-	protected function createStorageReflection()
-	{
-		$factory = new MappingFactory(parent::createStorageReflection());
-		$factory->addJsonMapping('content');
+protected function createStorageReflection()
+{
+	$factory = new MappingFactory(parent::createStorageReflection());
+	$factory->addJsonMapping('content');
 
-		return $factory->getReflection();
-	}
+	return $factory->getReflection();
+}
 
 }
+```
+
+```php
+$notes->content['abstract'] = 'Lorem ipsum...';
 ```
 
 
@@ -43,7 +50,7 @@ will handle. Transformation functions are arguments to `PgArray::parse` and `PgA
 
 ```sql
 CREATE TABLE "books" (
-    "authors" TEXT[] NOT NULL
+	"authors" TEXT[] NOT NULL
 );
 ```
 
@@ -68,3 +75,47 @@ class BooksMapper extends Mapper
 
 }
 ```
+
+## `CompositeType`
+
+
+
+### `CompositeType` Example
+
+```sql
+CREATE TYPE latlng AS (
+	lat numeric(14, 11),
+	lng numeric(14, 11)
+);
+CREATE TYPE location AS (
+	coords latlng,
+	name text
+);
+CREATE TABLE persons (
+	location location NOT NULL
+);
+```
+
+```php
+/**
+ * @property array $location
+ */
+class Person {}
+```
+
+TODO
+
+```php
+class PersonsMapper extends Mapper
+{
+
+}
+```
+
+## `MappingFactory`
+
+`StorageReflection` decorator. Simplifies mapping definitions.
+
+### `MappingFactory` Example
+
+see [`Json` Example](#Json-Example)

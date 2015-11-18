@@ -1,8 +1,9 @@
 <?php
 
-namespace Mikulas\Orm;
+namespace Mikulas\OrmExt;
 
-use Mikulas\Orm\PgExt\PgArray;
+use Mikulas\OrmExt\Pg\PgArray;
+use Nette\Utils\Json;
 use Nextras\Orm\Mapper\Dbal\StorageReflection\StorageReflection;
 
 

@@ -1,10 +1,9 @@
 <?php
 
-namespace Mikulas\Orm\PgExt;
+namespace Mikulas\OrmExt\Pg;
 
 use Nette\Utils\Tokenizer;
 use Nette\Utils\TokenizerException;
-use Nextras\Dbal\Drivers\IDriver;
 
 
 /**
@@ -113,7 +112,8 @@ class PgArray
 	protected static function innerParse($tokens, callable $transform, $startPos)
 	{
 		$values = [];
-		for ($position = $startPos; $position < count($tokens); ++$position) {
+		$max = count($tokens);
+		for ($position = $startPos; $position < $max; ++$position) {
 			list($value, $offset, $type) = $tokens[$position];
 			if ($type === self::T_OPEN) {
 				list($values[], $position) = self::innerParse($tokens, $transform, $position + 1);

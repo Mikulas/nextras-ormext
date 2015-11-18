@@ -4,7 +4,7 @@
  * @testCase
  */
 
-namespace Mikulas\Orm\PgExt;
+namespace Mikulas\OrmExt\Pg;
 
 use DateTimeImmutable;
 use DateTimeZone;
@@ -12,7 +12,7 @@ use Mockery;
 use NextrasTests\Orm\TestCase;
 use Tester\Assert;
 
-$dic = require_once __DIR__ . '/../../bootstrap.php';
+$dic = require_once __DIR__ . '/../../../bootstrap.php';
 
 
 class PostgresArrayTest extends TestCase

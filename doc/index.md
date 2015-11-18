@@ -9,10 +9,12 @@ Depending on your desired behaviour, `null` can either be cast to empty array, o
 Can be used both as `@property type[]` and `@property NULL|type[]`, where `type` is anything your transformation functions
 will handle. Transformation functions are arguments to `PgArray::parse` and `PgArray::serialize` and are also called for `null` values.
 
+`MappingFactory` helper contains `addStringArrayMapping` and `addGenericArrayMapping` that provide a nice level of abstraction.
+
 ### `PgArray` Example
 
 ```sql
-CREATE TABLE "book" (
+CREATE TABLE "books" (
     "authors" TEXT[] NOT NULL
 );
 ```
@@ -30,19 +32,10 @@ class BooksMapper extends Mapper
 
 	protected function createStorageReflection()
 	{
-		$reflection = parent::createStorageReflection();
-		$reflection->addMapping(
-			'authors',
-			'authors',
-			function ($value) {
-				return PgArray::parse($value, function($author) {return (string} $author);
-			},
-			function ($value) use ($pgArray) {
-				return PgArray::serialize($value, function($author) {return (string} $author);
-			}
-		);
+		$factory = new MappingFactory(parent::createStorageReflection());
+		$factory->addStringArrayMapping('authors');
 
-		return $reflection;
+		return $factory->getReflection();
 	}
 
 }

@@ -19,13 +19,13 @@ CREATE TABLE "notes" (
 class NotesMapper extends Mapper
 {
 
-protected function createStorageReflection()
-{
-	$factory = new MappingFactory(parent::createStorageReflection());
-	$factory->addJsonMapping('content');
+	protected function createStorageReflection()
+	{
+		$factory = new MappingFactory(parent::createStorageReflection());
+		$factory->addJsonMapping('content');
 
-	return $factory->getReflection();
-}
+		return $factory->getReflection();
+	}
 
 }
 ```

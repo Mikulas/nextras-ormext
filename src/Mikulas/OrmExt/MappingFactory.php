@@ -21,6 +21,24 @@ class MappingFactory
 
 
 	/**
+	 * @param string $propertyName
+	 */
+	public function addJsonMapping($propertyName)
+	{
+		$this->reflection->addMapping(
+			$propertyName,
+			$this->reflection->convertEntityToStorageKey($propertyName),
+			function ($value) {
+				return Json::decode($value);
+			},
+			function ($value) {
+				return Json::encode($value);
+			}
+		);
+	}
+
+
+	/**
 	 * @param string            $propertyName
 	 * @param callable          $toEntityTransform
 	 * @param callable          $toSqlTransform

@@ -1,0 +1,32 @@
+{
+	"name": "mikulas/nextras-orm-pg",
+	"type": "library",
+	"description": "PostgreSQL extensions for Nextras Orm framework DBAL and ORM",
+	"keywords": ["orm", "database", "nextras", "postgresql"],
+	"homepage": "https://github.com/mikulas/nextras-orm-pg",
+	"license": "MIT",
+	"authors": [
+		{ "name": "Nextras Project", "homepage": "https://github.com/nextras/orm/graphs/contributors" }
+	],
+	"require": {
+		"php": ">=5.6",
+		"nextras/dbal": "~1.0.1",
+		"nextras/orm": "~1.1.4",
+		"nette/tokenizer": "~2.2"
+	},
+	"require-dev": {
+		"tracy/tracy": "~2.3",
+		"nette/bootstrap": "~2.3",
+		"nette/tester": "~1.6 != 1.6.1",
+		"mockery/mockery": "~0.9"
+	},
+	"autoload": {
+		"psr-4": { "Mikulas\\Orm\\PgExt\\": "src/" }
+	},
+	"autoload-dev": {
+		"classmap": [
+			"tests/cases",
+			"tests/inc"
+		]
+	}
+}

@@ -52,6 +52,8 @@ class PgArray
 		foreach ($input as $partial) {
 			if (is_array($partial)) {
 				$values[] = self::serialize($partial, $transform, $castEmptyToNull);
+			} elseif ($partial === NULL) {
+				$values[] = 'NULL'; // unlike in composite types, '{1,,2}' does not work
 			} else {
 				$values[] = $transform($partial);
 			}
@@ -111,24 +113,19 @@ class PgArray
 	protected static function innerParse($tokens, callable $transform, $startPos)
 	{
 		$values = [];
-		$previousType = NULL;
 		for ($position = $startPos; $position < count($tokens); ++$position) {
 			list($value, $offset, $type) = $tokens[$position];
 			if ($type === self::T_OPEN) {
 				list($values[], $position) = self::innerParse($tokens, $transform, $position + 1);
 
 			} elseif ($type === self::T_CLOSE) {
-				if ($previousType === self::T_SEPARATOR) {
-					$values[] = $transform(NULL);
-				}
 				return [$values, $position + 1];
 
-			} elseif ($type === self::T_SEPARATOR) {
-				if ($previousType === self::T_SEPARATOR) {
-					$values[] = $transform(NULL);
-				}
-
 			} elseif ($type === self::T_VALUE) {
+				if ($value === 'NULL') {
+					$values[] = NULL;
+					continue;
+				}
 				$value = $value ? trim($value) : $value;
 				$values[] = $transform($value);
 
@@ -136,11 +133,12 @@ class PgArray
 				$value = str_replace('""', '"', substr(trim($value), 1, -1));
 				$values[] = $transform($value);
 
+			} elseif ($type === self::T_SEPARATOR) {
+				continue;
+
 			} else {
 				throw PgArrayException::malformedInput();
 			}
-
-			$previousType = $type;
 		}
 		return [$values, $position];
 	}

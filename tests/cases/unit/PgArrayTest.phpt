@@ -27,6 +27,8 @@ class PostgresArrayTest extends TestCase
 		Assert::same(NULL, PgArray::parse(NULL, $toString));
 		Assert::same([], PgArray::parse('{}', $toString));
 		Assert::same(['a', 'b'], PgArray::parse('{"a", "b"}', $toString));
+
+		Assert::same(['a', NULL, 'b'], PgArray::parse('{"a",NULL,"b"}', $toString));
 	}
 
 
@@ -70,6 +72,10 @@ class PostgresArrayTest extends TestCase
 		}, PgArrayException::class, '~last token~i');
 
 		Assert::exception(function() use ($id) {
+			PgArray::parse('{1,,2} post', $id);
+		}, PgArrayException::class);
+
+		Assert::exception(function() use ($id) {
 			PgArray::parse('{ " }', $id);
 		}, PgArrayException::class, '~Malformed~i');
 	}
@@ -83,7 +89,7 @@ class PostgresArrayTest extends TestCase
 
 		Assert::same(NULL, PgArray::serialize(NULL, $fromString));
 		Assert::same('{}', PgArray::serialize([], $fromString));
-		Assert::same("{'a','b'}", PgArray::serialize(['a', 'b'], $fromString));
+		Assert::same("{'a',NULL,'b'}", PgArray::serialize(['a', NULL, 'b'], $fromString));
 	}
 
 

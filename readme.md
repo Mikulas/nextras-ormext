@@ -8,7 +8,7 @@ Requires dev version of [nextras/orm](https://github.com/nextras/orm).
 ## Features
 
 - [`Json`](doc/index.md#json)
-- [`Crypt`](doc/index.md#crypt)
+- [`Crypto`](doc/index.md#crypto)
 - [`PgArray`](doc/index.md#pgarray)
 - [`CompositeType`](doc/index.md#compositetype)
 - [`MappingFactory`](doc/index.md#mappingfactory)
@@ -16,7 +16,9 @@ Requires dev version of [nextras/orm](https://github.com/nextras/orm).
 
 ## [Documentation](doc/index.md)
 
-See [doc/index.md](doc/index.md)
+See [doc/index.md](doc/index.md) for usage documentation.
+
+[Api documentation](https://codedoc.pub/Mikulas/nextras-ormext/master/index.html)
 
 ## License
 

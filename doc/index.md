@@ -1,12 +1,19 @@
 # Features
 
 - [`Json`](#json)
-- [`Crypt`](#crypt)
+- [`Crypto`](#crypto)
 - [`PgArray`](#pgarray)
 - [`CompositeType`](#compositetype)
 - [`MappingFactory`](#mappingfactory)
 
+[Api documentation](https://codedoc.pub/Mikulas/nextras-ormext/master/index.html)
+
 ## `Json`
+
+Converts arbitrary php hash to json for storing purposes and then back to php hash. Setup is as easy as specifying
+new mapping.
+
+- [`MappingFactory::addJsonMapping`](https://codedoc.pub/Mikulas/nextras-ormext/master/class-Mikulas.OrmExt.MappingFactory.html#_addJsonMapping)
 
 ### `Json` Example
 
@@ -36,7 +43,7 @@ $notes->content['abstract'] = 'Lorem ipsum...';
 ```
 
 
-## `Crypt`
+## `Crypto`
 
 Saves encrypted values in database and decodes them back when fetched to php. Uses AES-256 compliant Rijndael-128.
 
@@ -49,7 +56,10 @@ Database type for encrypted field should be `TEXT`, unbound string.
 
 Requires `ext-mcrypt`.
 
-### `Crypt` Example
+- [`Crypto`](https://codedoc.pub/Mikulas/nextras-ormext/master/class-Mikulas.OrmExt.Crypto.html)
+- [`MappingFactory::addCryptoMapping`](https://codedoc.pub/Mikulas/nextras-ormext/master/class-Mikulas.OrmExt.MappingFactory.html#_addCryptoMapping)
+
+### `Crypto` Example
 
 ```sql
 CREATE TABLE "users" (
@@ -97,6 +107,10 @@ will handle. Transformation functions are arguments to `PgArray::parse` and `PgA
 
 `MappingFactory` helper contains `addStringArrayMapping` and `addGenericArrayMapping` that provide a nice level of abstraction.
 
+- [`PgArray`](https://codedoc.pub/Mikulas/nextras-ormext/master/class-Mikulas.OrmExt.Pg.PgArray.html)
+- [`MappingFactory::addStringArrayMapping`](https://codedoc.pub/Mikulas/nextras-ormext/master/class-Mikulas.OrmExt.MappingFactory.html#_addStringArrayMapping)
+- [`MappingFactory::addGenericArrayMapping`](https://codedoc.pub/Mikulas/nextras-ormext/master/class-Mikulas.OrmExt.MappingFactory.html#_addGenericArrayMapping)
+
 ### `PgArray` Example
 
 ```sql
@@ -129,7 +143,12 @@ class BooksMapper extends Mapper
 
 ## `CompositeType`
 
+Parses PostgreSQL [composite types](http://www.postgresql.org/docs/current/static/rowtypes.html) into php hash.
 
+Proxy for wrapping `CompositeType` to object is also provided: `CompositeTypePropertyProxy`. See example below.
+
+- [`CompositeType`](https://codedoc.pub/Mikulas/nextras-ormext/master/class-Mikulas.OrmExt.Pg.CompositeType.html)
+- [`CompositeTypePropertyProxy`](https://codedoc.pub/Mikulas/nextras-ormext/master/class-Mikulas.OrmExt.Pg.CompositeTypePropertyProxy.html)
 
 ### `CompositeType` Example
 
@@ -237,6 +256,8 @@ class Location extends ModifiableDataStore
 ## `MappingFactory`
 
 `StorageReflection` decorator. Simplifies mapping definitions.
+
+- [`MappingFactory`](https://codedoc.pub/Mikulas/nextras-ormext/master/class-Mikulas.OrmExt.MappingFactory.html)
 
 ### `MappingFactory` Example
 

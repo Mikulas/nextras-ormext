@@ -8,7 +8,7 @@ matrix:
     fast_finish: true
 
 before_script:
-    # Install Nette Tester
+    - travis_retry composer self-update --no-interaction
     - travis_retry composer update --no-interaction --prefer-dist
 
     # Create php.ini
@@ -23,6 +23,8 @@ before_script:
     - mysql -e 'CREATE DATABASE nextras_orm_test;'
 
     - mysql_tzinfo_to_sql /usr/share/zoneinfo | mysql -u root mysql
+
+    - composer dump-autoload --classmap-authoritative
 
 script: ./tests/run.sh -s $NTESTER_FLAGS ./tests/cases
 

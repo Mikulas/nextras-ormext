@@ -1,10 +1,10 @@
 # Features
 
-- [`Json`](#Json)
-- [`Crypt`](#Crypt)
-- [`PgArray`](#PgArray)
-- [`CompositeType`](#CompositeType)
-- [`MappingFactory`](#MappingFactory)
+- [`Json`](#json)
+- [`Crypt`](#crypt)
+- [`PgArray`](#pgarray)
+- [`CompositeType`](#compositetype)
+- [`MappingFactory`](#mappingfactory)
 
 ## `Json`
 
@@ -38,17 +38,22 @@ $notes->content['abstract'] = 'Lorem ipsum...';
 
 ## `Crypt`
 
-Requires `ext-mcrypt`.
-
 Saves encrypted values in database and decodes them back when fetched to php. Uses AES-256 compliant Rijndael-128.
 
-Please note NULL values are not encrypted by default.
+Column name is automatically appended with `_encrypted`, which you can change in `addCryptoMapping($column, Crypto, $postfix)` call.
+
+Please note NULL values are not encrypted by default. This may present security issues (it leaks that something is or is not set).
+Reasoning behind this is that column constraints could not be enforced properly if `NULL` was encrypted to `string`.
+
+Database type for encrypted field should be `TEXT`, unbound string.
+
+Requires `ext-mcrypt`.
 
 ### `Crypt` Example
 
 ```sql
 CREATE TABLE "users" (
-	"email_encrypted" text NOT NULL
+	"email_encrypted" TEXT NOT NULL
 );
 ```
 
@@ -129,13 +134,9 @@ class BooksMapper extends Mapper
 ### `CompositeType` Example
 
 ```sql
-CREATE TYPE latlng AS (
-	lat numeric(14, 11),
-	lng numeric(14, 11)
-);
 CREATE TYPE location AS (
-	coords latlng,
-	name text
+	street TEXT,
+	houseNumber INT
 );
 CREATE TABLE persons (
 	location location NOT NULL
@@ -143,17 +144,92 @@ CREATE TABLE persons (
 ```
 
 ```php
+use Mikulas\OrmExt\Pg\CompositeTypePropertyProxy as Proxy;
+
 /**
- * @property array $location
+ * @property Location $location {container Proxy}
  */
 class Person {}
 ```
 
-TODO
-
 ```php
-class PersonsMapper extends Mapper
+use Mikulas\OrmExt\ModifiableDataStore;
+use Mikulas\OrmExt\Pg\CompositeType;
+use Mikulas\OrmExt\Pg\CompositeTypeException;
+
+
+class Location extends ModifiableDataStore
 {
+
+	/** @var string */
+	protected $street;
+
+	/** @var int */
+	protected $houseNumber;
+
+
+	/**
+	 * @param string $street
+	 * @param int    $houseNumber
+	 */
+	public function __construct($street, $houseNumber)
+	{
+		$this->street = $street;
+		$this->houseNumber = $houseNumber;
+	}
+
+
+	/**
+	 * @param string $street
+	 */
+	public function setStreet($street)
+	{
+		if ($this->street !== (string) $street) {
+			$this->street = (string) $street;
+			$this->onModify();
+		}
+	}
+
+
+	/**
+	 * @param int $houseNumber
+	 */
+	public function setHouseNumber($houseNumber)
+	{
+		if (!is_int($houseNumber) && !ctype_digit($houseNumber)) {
+			throw new \InvalidArgumentException;
+		}
+
+		if ($this->houseNumber !== (int) $houseNumber) {
+			$this->houseNumber = (int) $houseNumber;
+			$this->onModify();
+		}
+	}
+
+
+	/**
+	 * @param string $serialized
+	 * @return NULL|Location
+	 * @throws CompositeTypeException
+	 */
+	public static function parse($serialized)
+	{
+		if ($serialized === NULL) {
+			return NULL;
+		}
+
+		list($street, $houseNumber) = CompositeType::parse($serialized);
+		return new self($street, $houseNumber);
+	}
+
+
+	/**
+	 * @return string
+	 */
+	public function serialize()
+	{
+		return CompositeType::serialize([$this->street, $this->houseNumber]);
+	}
 
 }
 ```
@@ -164,4 +240,4 @@ class PersonsMapper extends Mapper
 
 ### `MappingFactory` Example
 
-see [`Json` Example](#Json-Example)
+See [`Json` Example](#json-example) and other snippets on this page.

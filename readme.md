@@ -1,7 +1,7 @@
 Extensions for Nextras\Orm stack
 ================================
 
-[![Build Status](https://travis-ci.org/mikulas/nextras-ormext.svg?branch=master)](https://travis-ci.org/mikulas/nextras-ormext)
+[![Build Status](https://travis-ci.org/Mikulas/nextras-ormext.svg?branch=master)](https://travis-ci.org/Mikulas/nextras-ormext)
 
 Requires dev version of [nextras/orm](https://github.com/nextras/orm).
 

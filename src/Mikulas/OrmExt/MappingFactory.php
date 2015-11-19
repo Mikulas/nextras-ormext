@@ -39,6 +39,26 @@ class MappingFactory
 
 
 	/**
+	 * @param string $propertyName
+	 * @param Crypto $crypto
+	 * @param string $sqlPostfix
+	 */
+	public function addCryptoMapping($propertyName, Crypto $crypto, $sqlPostfix = '_encrypted')
+	{
+		$this->reflection->addMapping(
+			$propertyName,
+			$this->reflection->convertEntityToStorageKey($propertyName) . $sqlPostfix,
+			function ($garble) use ($crypto) {
+				return $garble === NULL ? NULL : $crypto->decrypt($garble);
+			},
+			function ($plain) use ($crypto) {
+				return $plain === NULL ? NULL : $crypto->encrypt($plain);
+			}
+		);
+	}
+
+
+	/**
 	 * @param string            $propertyName
 	 * @param callable          $toEntityTransform
 	 * @param callable          $toSqlTransform

@@ -1,6 +1,7 @@
 # Features
 
 - [`Json`](#Json)
+- [`Crypt`](#Crypt)
 - [`PgArray`](#PgArray)
 - [`CompositeType`](#CompositeType)
 - [`MappingFactory`](#MappingFactory)
@@ -34,6 +35,51 @@ class NotesMapper extends Mapper
 $notes->content['abstract'] = 'Lorem ipsum...';
 ```
 
+
+## `Crypt`
+
+Requires `ext-mcrypt`.
+
+Saves encrypted values in database and decodes them back when fetched to php. Uses AES-256 compliant Rijndael-128.
+
+Please note NULL values are not encrypted by default.
+
+### `Crypt` Example
+
+```sql
+CREATE TABLE "users" (
+	"email_encrypted" text NOT NULL
+);
+```
+
+
+```php
+class UsersMapper extends Mapper
+{
+
+	/** @var Crypto */
+	protected $crypto;
+
+
+	/**
+	 * @property Crypto $crypto
+	 */
+	public function __construct(Crypto $crypto)
+	{
+		$this->crypto = $crypto;
+	}
+
+
+	protected function createStorageReflection()
+	{
+		$factory = new MappingFactory(parent::createStorageReflection());
+		$factory->addCryptoMapping('email', $this->crypto);
+
+		return $factory->getReflection();
+	}
+
+}
+```
 
 ## `PgArray`
 

@@ -1,5 +1,5 @@
 {
-	"name": "mikulas/nextras-orm-pg",
+	"name": "mikulas/nextras-ormext",
 	"type": "library",
 	"description": "PostgreSQL extensions for Nextras Orm framework DBAL and ORM",
 	"keywords": ["orm", "database", "nextras", "postgresql"],

@@ -23,7 +23,7 @@ Helper::check();
 $configurator = new Configurator();
 
 if (!Helper::isRunByRunner()) {
-//	$configurator->enableDebugger(__DIR__ . '/log');
+	$configurator->enableDebugger(__DIR__ . '/log');
 } else {
 	header('Content-type: text/plain');
 	putenv('ANSICON=TRUE');

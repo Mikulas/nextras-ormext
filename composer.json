@@ -8,10 +8,11 @@
 	"authors": [
 		{ "name": "Nextras Project", "homepage": "https://github.com/nextras/orm/graphs/contributors" }
 	],
+	"minimum-stability": "stable",
 	"require": {
 		"php": ">=5.6",
 		"nextras/dbal": "~1.0.1",
-		"nextras/orm": "dev-master#f07285c6",
+		"nextras/orm": "dev-master",
 		"nette/tokenizer": "~2.2",
 		"nette/utils": "~2.2"
 	},

@@ -3,6 +3,8 @@ Extensions for Nextras\Orm stack
 
 [![Build Status](https://travis-ci.org/mikulas/nextras-orm-pg.svg?branch=master)](https://travis-ci.org/mikulas/nextras-orm-pg)
 
+Requires dev version of [nextras/orm](https://github.com/nextras/orm).
+
 ## Features
 
 - [`Json`](doc/index.md#json)

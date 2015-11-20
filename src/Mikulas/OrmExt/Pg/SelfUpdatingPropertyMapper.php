@@ -64,7 +64,11 @@ abstract class SelfUpdatingPropertyMapper extends Mapper
 			$id = $entity->getPersistedId();
 		}
 
-		$entity->onLoad($result->fetch());
+		$row = $result->fetch();
+		if ($row) {
+			$data = ['id' => $id] + $row->toArray();
+			$entity->fireEvent('onLoad', [$data]);
+		}
 		return $id;
 	}
 

@@ -2,6 +2,7 @@ Extensions for Nextras\Orm stack
 ================================
 
 [![Build Status](https://travis-ci.org/Mikulas/nextras-ormext.svg?branch=master)](https://travis-ci.org/Mikulas/nextras-ormext)
+[![Api Documentation](https://img.shields.io/badge/api-master-ff69b4.svg)](https://codedoc.pub/Mikulas/nextras-ormext/master/index.html)
 
 Requires dev version of [nextras/orm](https://github.com/nextras/orm).
 

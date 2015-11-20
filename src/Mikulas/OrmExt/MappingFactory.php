@@ -87,7 +87,7 @@ class MappingFactory
 			return (string) $partial;
 		};
 		$toSql = function($partial) {
-			return "'$partial'";
+			return '"' . $partial . '"';
 		};
 
 		$this->addGenericArrayMapping($propertyName, $toEntity, $toSql);

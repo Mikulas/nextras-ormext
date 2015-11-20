@@ -4,6 +4,7 @@
 - [`Crypto`](#crypto)
 - [`PgArray`](#pgarray)
 - [`CompositeType`](#compositetype)
+- [`SelfUpdatingPropertyMapper`](#selfupdatingpropertymapper)
 - [`MappingFactory`](#mappingfactory)
 
 [Api documentation](https://codedoc.pub/Mikulas/nextras-ormext/master/index.html)
@@ -38,6 +39,8 @@ class NotesMapper extends Mapper
 }
 ```
 
+#### Usage
+
 ```php
 $notes->content['abstract'] = 'Lorem ipsum...';
 ```
@@ -66,7 +69,6 @@ CREATE TABLE "users" (
 	"email_encrypted" TEXT NOT NULL
 );
 ```
-
 
 ```php
 class UsersMapper extends Mapper
@@ -168,7 +170,7 @@ use Mikulas\OrmExt\Pg\CompositeTypePropertyProxy as Proxy;
 /**
  * @property Location $location {container Proxy}
  */
-class Person {}
+class Person extends Entity {}
 ```
 
 ```php
@@ -251,6 +253,82 @@ class Location extends ModifiableDataStore
 	}
 
 }
+```
+
+#### Usage
+
+```php
+$person = new Person();
+$person->location; // NULL
+
+$person->location = new Location();
+$person->location->setStreet('Foobar');
+
+$repository->persist($person);
+```
+
+## `SelfUpdatingPropertyMapper`
+
+Reloads properties after entity persist. Useful for propagating database logic back to application. For example,
+when updating restaurant, before-triggers may recompute a price group ($, $$, $$$) of the restaurant info `price_group`.
+This mapper simplifies loading this field back to entity for further processing.
+
+- [SelfUpdatingPropertyMapper](https://codedoc.pub/Mikulas/nextras-ormext/master/class-Mikulas.OrmExt.Pg.SelfUpdatingPropertyMapper.html)
+
+### `SelfUpdatingPropertyMapper` Example
+
+```sql
+CREATE TABLE "doughnuts" (
+	"a" integer,
+	"b" integer,
+	"computed_property" integer
+);
+CREATE FUNCTION compute_property() RETURNS trigger AS $$ BEGIN
+	NEW.computed_property = NEW.a * NEW.b;
+	RETURN NEW;
+END; $$ LANGUAGE plpgsql;
+
+CREATE TRIGGER trigger_compute_property BEFORE INSERT OR UPDATE ON doughnuts
+FOR EACH ROW EXECUTE PROCEDURE compute_property();
+```
+
+```php
+/**
+ * @property      int      $a
+ * @property      int      $b
+ * @property-read int|NULL $computedProperty
+ */
+class Doughnut extends Entity {}
+```
+
+```php
+class DoughnutMapper extends SelfUpdatingPropertyMapper
+{
+
+	/**
+	 * Lists properties that should be reloaded from database after persist.
+	 *
+	 * @return string[] property names
+	 */
+	protected function getSelfUpdatingProperties()
+	{
+		return ['computedProperty'];
+	}
+
+}
+```
+
+#### Usage
+
+```php
+$doughnut = new Doughnut;
+$doughnut->a = 3;
+$doughnut->b = 5;
+$doughnut->computedProperty; // NULL
+
+$repo->persist($doughnut);
+
+$doughnut->computedProperty; // 15
 ```
 
 ## `MappingFactory`

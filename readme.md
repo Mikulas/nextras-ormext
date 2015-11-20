@@ -12,6 +12,7 @@ Requires dev version of [nextras/orm](https://github.com/nextras/orm).
 - [`Crypto`](doc/index.md#crypto)
 - [`PgArray`](doc/index.md#pgarray)
 - [`CompositeType`](doc/index.md#compositetype)
+- [`SelfUpdatingPropertyMapper`](doc/index.md#selfupdatingpropertymapper)
 - [`MappingFactory`](doc/index.md#mappingfactory)
 
 

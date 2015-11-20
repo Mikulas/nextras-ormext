@@ -117,10 +117,15 @@ Depending on your desired behaviour, `null` can either be cast to empty array, o
 Can be used both as `@property type[]` and `@property NULL|type[]`, where `type` is anything your transformation functions
 will handle. Transformation functions are arguments to `PgArray::parse` and `PgArray::serialize` and are also called for `null` values.
 
-`MappingFactory` helper contains `addStringArrayMapping` and `addGenericArrayMapping` that provide a nice level of abstraction.
+`MappingFactory` helper contains implementations for string, integer and DateTime arrays. Additional array formats can be easily added
+with `addGenericArrayMapping`.
+
+Default implementation of `addDateTimeArrayMapping` expects dates to be normalized to zero timezone offset.
 
 - [`PgArray`](https://codedoc.pub/Mikulas/nextras-ormext/master/class-Mikulas.OrmExt.Pg.PgArray.html)
 - [`MappingFactory::addStringArrayMapping`](https://codedoc.pub/Mikulas/nextras-ormext/master/class-Mikulas.OrmExt.MappingFactory.html#_addStringArrayMapping)
+- [`MappingFactory::addIntArrayMapping`](https://codedoc.pub/Mikulas/nextras-ormext/master/class-Mikulas.OrmExt.MappingFactory.html#_addIntArrayMapping)
+- [`MappingFactory::addDateTimeArrayMapping`](https://codedoc.pub/Mikulas/nextras-ormext/master/class-Mikulas.OrmExt.MappingFactory.html#_addDateTimeArrayMapping)
 - [`MappingFactory::addGenericArrayMapping`](https://codedoc.pub/Mikulas/nextras-ormext/master/class-Mikulas.OrmExt.MappingFactory.html#_addGenericArrayMapping)
 
 ### `PgArray` Example

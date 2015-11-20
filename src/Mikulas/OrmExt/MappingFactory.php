@@ -59,9 +59,9 @@ class MappingFactory
 
 
 	/**
-	 * @param string            $propertyName
-	 * @param callable          $toEntityTransform
-	 * @param callable          $toSqlTransform
+	 * @param string   $propertyName
+	 * @param callable $toEntityTransform
+	 * @param callable $toSqlTransform
 	 */
 	public function addGenericArrayMapping($propertyName, callable $toEntityTransform, callable $toSqlTransform)
 	{
@@ -79,7 +79,7 @@ class MappingFactory
 
 
 	/**
-	 * @param string            $propertyName
+	 * @param string $propertyName
 	 */
 	public function addStringArrayMapping($propertyName)
 	{
@@ -88,6 +88,39 @@ class MappingFactory
 		};
 		$toSql = function($partial) {
 			return "'$partial'";
+		};
+
+		$this->addGenericArrayMapping($propertyName, $toEntity, $toSql);
+	}
+
+
+	/**
+	 * @param string $propertyName
+	 */
+	public function addIntArrayMapping($propertyName)
+	{
+		$toEntity = function($partial) {
+			return (int) $partial;
+		};
+		$toSql = function($partial) {
+			return $partial;
+		};
+
+		$this->addGenericArrayMapping($propertyName, $toEntity, $toSql);
+	}
+
+
+	/**
+	 * Expects normalized dates without timezones
+	 * @param string $propertyName
+	 */
+	public function addDateTimeArrayMapping($propertyName)
+	{
+		$toEntity = function($partial) {
+			return new \DateTime($partial);
+		};
+		$toSql = function(\DateTimeInterface $partial) {
+			return '"' . $partial->format('Y-m-d H:i:s') . '"';
 		};
 
 		$this->addGenericArrayMapping($propertyName, $toEntity, $toSql);

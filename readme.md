@@ -16,6 +16,11 @@ Requires dev version of [nextras/orm](https://github.com/nextras/orm).
 - [`SelfUpdatingPropertyMapper`](doc/index.md#selfupdatingpropertymapper)
 - [`MappingFactory`](doc/index.md#mappingfactory)
 
+## Composer
+
+```md
+composer require mikulas/nextras-ormext
+```
 
 ## [Documentation](doc/index.md)
 

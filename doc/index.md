@@ -42,9 +42,19 @@ class NotesMapper extends Mapper
 #### Usage
 
 ```php
-$notes->content['abstract'] = 'Lorem ipsum...';
+$notes->setContent(['abstract' => 'Lorem ipsum...']);
 ```
 
+#### Incorrect usage
+
+I you wan't to use array-access setters, you have to call `setModified()` manually. We recommend creating a setter instead, as in the main example below.
+
+> E_NOTICE: Indirect modification of overloaded property
+
+```php
+@$notes->content['abstract'] = 'Lorem ipsum...';
+$notes->setAsModified('content');
+```
 
 ## `Crypto`
 

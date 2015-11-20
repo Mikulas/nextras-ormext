@@ -29,7 +29,7 @@ class MappingFactory
 			$propertyName,
 			$this->reflection->convertEntityToStorageKey($propertyName),
 			function ($value) {
-				return Json::decode($value);
+				return Json::decode($value, Json::FORCE_ARRAY);
 			},
 			function ($value) {
 				return Json::encode($value);

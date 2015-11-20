@@ -7,10 +7,22 @@ use Nextras\Orm\Entity\Entity;
 
 
 /**
- * @property int      $id       {primary}
- * @property Location $location {container Proxy}
+ * @property      int         $id       {primary}
+ * @property      Location    $location {container Proxy}
+ * @property-read NULL|mixed  $content
  */
 class Person extends Entity
 {
+
+	/**
+	 * Prevent setting via array access, which would
+	 * not invoke onModify
+	 *
+	 * @param mixed|NULL $content
+	 */
+	public function setContent(array $content = NULL)
+	{
+		$this->setReadOnlyValue('content', $content);
+	}
 
 }

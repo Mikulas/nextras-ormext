@@ -31,7 +31,6 @@ class CompositeTypeTest extends TestCase
 			['(a)', ['a']],
 
 			['("q""o")', ['q"o']],
-			['("q\\"o")', ['q\\"o']],
 			['("par)en")', ['par)en']],
 
 			['( chars )', [' chars ']],
@@ -49,6 +48,13 @@ class CompositeTypeTest extends TestCase
 	{
 		Assert::same($php, CompositeType::parse($sql));
 	}
+
+
+	public function testParseAlternativeQuoteSyntax()
+	{
+		Assert::same(['q"o'], CompositeType::parse('("q\\"o")'));
+	}
+
 
 	/**
 	 * @dataProvider provideCases

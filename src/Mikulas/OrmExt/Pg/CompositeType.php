@@ -72,7 +72,7 @@ class CompositeType
 			self::T_OPEN => '\s*\(',
 			self::T_CLOSE => '\)\s*',
 			self::T_SEPARATOR => ',',
-			self::T_QUOTED_VALUE => '\s*"(?:""|[^"])*"\s*',
+			self::T_QUOTED_VALUE => '\s*"(?:""|\\\\"|[^"])*"\s*',
 			self::T_VALUE => '[^,()"\\\\]+',
 		]);
 
@@ -134,7 +134,7 @@ class CompositeType
 				}
 
 			} elseif ($type === self::T_QUOTED_VALUE) {
-				$values[] = str_replace('""', '"', substr(trim($value), 1, -1));
+				$values[] = strtr(substr(trim($value), 1, -1), ['""' => '"', '\\"' => '"']);
 
 			} else {
 				throw CompositeTypeException::malformedInput($input);

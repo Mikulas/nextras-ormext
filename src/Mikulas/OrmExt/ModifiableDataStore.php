@@ -7,7 +7,7 @@ abstract class ModifiableDataStore implements IPropertyDataStore
 {
 
 	/** @var callable[] */
-	private $listeners;
+	private $listeners = [];
 
 
 	/**

@@ -17,7 +17,7 @@ use Tester\Assert;
 $dic = require_once __DIR__ . '/../../../bootstrap.php';
 
 
-class PostgresArrayTest extends TestCase
+class PgArrayTest extends TestCase
 {
 
 	public function testParseString()
@@ -28,7 +28,9 @@ class PostgresArrayTest extends TestCase
 
 		Assert::same(NULL, PgArray::parse(NULL, $toString));
 		Assert::same([], PgArray::parse('{}', $toString));
-		Assert::same(['a', 'b'], PgArray::parse('{"a", "b"}', $toString));
+		Assert::same(['a', 'b'], PgArray::parse('{"a","b"}', $toString));
+
+		Assert::same(['q"o', 'trims'], PgArray::parse('{"q\"o",  trims  }', $toString));
 
 		Assert::same(['a', NULL, 'b'], PgArray::parse('{"a",NULL,"b"}', $toString));
 	}
@@ -86,12 +88,13 @@ class PostgresArrayTest extends TestCase
 	public function testSerializeString()
 	{
 		$fromString = function($partial) {
-			return $partial === NULL ? NULL : "'$partial'";
+			return $partial === NULL ? NULL : '"' . str_replace('"', '\\"', $partial) . '"';
 		};
 
 		Assert::same(NULL, PgArray::serialize(NULL, $fromString));
 		Assert::same('{}', PgArray::serialize([], $fromString));
-		Assert::same("{'a',NULL,'b'}", PgArray::serialize(['a', NULL, 'b'], $fromString));
+		Assert::same('{"a",NULL,"b"}', PgArray::serialize(['a', NULL, 'b'], $fromString));
+		Assert::same('{" spaces ","q\\"o"}', PgArray::serialize([' spaces ', 'q"o'], $fromString));
 	}
 
 
@@ -102,14 +105,14 @@ class PostgresArrayTest extends TestCase
 				return NULL;
 			}
 			$normalized = $partial->setTimezone(new DateTimeZone(date_default_timezone_get()));
-			return "'" . $normalized->format('Y-m-d H:i:s') . "'";
+			return '"' . $normalized->format('Y-m-d H:i:s') . '"';
 		};
 
 		$dates = [
 			new DateTimeImmutable('2015-01-01 10:11:12'),
 			new DateTimeImmutable('2015-02-02 12:13:14'),
 		];
-		Assert::same("{'2015-01-01 10:11:12','2015-02-02 12:13:14'}", PgArray::serialize($dates, $fromDate));
+		Assert::same('{"2015-01-01 10:11:12","2015-02-02 12:13:14"}', PgArray::serialize($dates, $fromDate));
 	}
 
 
@@ -128,4 +131,4 @@ class PostgresArrayTest extends TestCase
 }
 
 
-(new PostgresArrayTest($dic))->run();
+(new PgArrayTest($dic))->run();

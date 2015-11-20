@@ -77,7 +77,7 @@ class PgArray
 			self::T_OPEN => '\s*\{',
 			self::T_CLOSE => '\}\s*',
 			self::T_SEPARATOR => ',',
-			self::T_QUOTED_VALUE => '\s*"(?:""|[^"])*"\s*',
+			self::T_QUOTED_VALUE => '\s*"(?:\\\\"|[^"])*"\s*',
 			self::T_VALUE => '[^,{}"\\\\]+',
 		]);
 
@@ -130,7 +130,7 @@ class PgArray
 				$values[] = $transform($value);
 
 			} elseif ($type === self::T_QUOTED_VALUE) {
-				$value = str_replace('""', '"', substr(trim($value), 1, -1));
+				$value = str_replace('\\"', '"', substr(trim($value), 1, -1));
 				$values[] = $transform($value);
 
 			} elseif ($type === self::T_SEPARATOR) {

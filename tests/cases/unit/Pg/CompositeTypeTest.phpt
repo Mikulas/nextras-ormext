@@ -31,6 +31,7 @@ class CompositeTypeTest extends TestCase
 			['(a)', ['a']],
 
 			['("q""o")', ['q"o']],
+			['("q\\"o")', ['q\\"o']],
 			['("par)en")', ['par)en']],
 
 			['( chars )', [' chars ']],

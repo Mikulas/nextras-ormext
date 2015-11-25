@@ -68,7 +68,10 @@ abstract class SelfUpdatingPropertyMapper extends Mapper
 
 		$row = $result->fetch();
 		if ($row) {
-			$data = ['id' => $id] + $row->toArray();
+			$data = [];
+			foreach ($row->toArray() + ['id' => $id] as $column => $value) {
+				$data[$this->getStorageReflection()->convertStorageToEntityKey($column)] = $value;
+			}
 			$entity->fireEvent('onLoad', [$data]);
 		}
 		return $id;

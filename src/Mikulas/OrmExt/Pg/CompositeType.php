@@ -94,6 +94,13 @@ class CompositeType
 			throw CompositeTypeException::mismatchedParens($input);
 		}
 
+		// A completely empty field value (no characters at all between the commas or parentheses) represents a NULL.
+		if ([] === array_filter($values, function($value) {
+			return $value !== NULL;
+		})) {
+			return NULL;
+		}
+
 		return $values;
 	}
 

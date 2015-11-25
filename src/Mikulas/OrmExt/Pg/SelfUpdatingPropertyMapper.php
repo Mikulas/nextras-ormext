@@ -34,11 +34,13 @@ abstract class SelfUpdatingPropertyMapper extends Mapper
 			return [];
 		}
 		$ref = $this->getStorageReflection();
-		$clause = ['RETURNING'];
+		$clause = ['RETURNING '];
+		$columns = [];
 		foreach ($properties as $col) {
-			$clause[0] .= ' %column';
+			$columns[] .= '%column';
 			$clause[] = $ref->convertEntityToStorageKey($col);
 		}
+		$clause[0] .= implode(', ', $columns);
 		return $clause;
 	}
 

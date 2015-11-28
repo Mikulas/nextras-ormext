@@ -23,10 +23,8 @@ class CompositeTypeTest extends TestCase
 	public function provideCases()
 	{
 		return [
-			['()', [NULL]],
 			['(pre,)', ['pre', NULL]],
 			['(,post)', [NULL, 'post']],
-			['(,)', [NULL, NULL]],
 
 			['(a)', ['a']],
 
@@ -53,6 +51,13 @@ class CompositeTypeTest extends TestCase
 	public function testParseAlternativeQuoteSyntax()
 	{
 		Assert::same(['q"o'], CompositeType::parse('("q\\"o")'));
+	}
+
+
+	public function testParseAlternativeNullSyntax()
+	{
+		Assert::same(NULL, CompositeType::parse('()'));
+		Assert::same(NULL, CompositeType::parse('(,,,)'));
 	}
 
 

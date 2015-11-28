@@ -22,14 +22,18 @@ class PersonsMapper extends Mapper
 	}
 
 
+	protected function getSelfUpdatingProperties()
+	{
+		return ['largestFavoriteNumber'];
+	}
+
+
 	protected function createStorageReflection()
 	{
 		$factory = new MappingFactory(parent::createStorageReflection());
 		$factory->addJsonMapping('content');
 		$factory->addCryptoMapping('creditCardNumber', $this->crypto);
 		$factory->addIntArrayMapping('favoriteNumbers');
-
-		$factory->addIntArrayMapping('xxx'); // TODO throw
 
 		return $factory->getReflection();
 	}

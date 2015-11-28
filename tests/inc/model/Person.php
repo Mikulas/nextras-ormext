@@ -12,6 +12,7 @@ use Nextras\Orm\Entity\Entity;
  * @property      NULL|Location $location              {container Proxy}
  * @property      NULL|string   $creditCardNumber      encrypted
  * @property      NULL|int[]    $favoriteNumbers
+ * @property-read NULL|int      $largestFavoriteNumber computed from favoriteNumbers with trigger
  * @property-read NULL|mixed    $content
  */
 class Person extends Entity

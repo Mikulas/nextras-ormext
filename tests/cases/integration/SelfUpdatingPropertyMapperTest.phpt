@@ -2,7 +2,6 @@
 
 namespace Mikulas\OrmExt\Tests\Integration;
 
-use Mikulas\OrmExt\Tests\Location;
 use Mikulas\OrmExt\Tests\Person;
 use Mikulas\OrmExt\Tests\TestCase;
 use Tester\Assert;
@@ -10,7 +9,7 @@ use Tester\Assert;
 $dic = require_once __DIR__ . '/../../bootstrap.php';
 
 
-class PgArrayTest extends TestCase
+class SelfUpdatingPropertyMapperTest extends TestCase
 {
 
 	public function testWithRealDb()
@@ -18,21 +17,21 @@ class PgArrayTest extends TestCase
 		/** @var Person $person */
 		$person = new Person();
 
-		Assert::null($person->favoriteNumbers);
+		Assert::null($person->largestFavoriteNumber);
 		$person = $this->persistPurgeAndLoad($this->orm->persons, $person);
-		Assert::null($person->favoriteNumbers);
+		Assert::null($person->largestFavoriteNumber);
 
-		$person->favoriteNumbers = $exp = [-10, 2, 99, 3];
-		Assert::same($exp, $person->favoriteNumbers);
+		$person->favoriteNumbers = $exp = [-10, 2, 3, 99];
+		Assert::null($person->largestFavoriteNumber);
 		$person = $this->persistPurgeAndLoad($this->orm->persons, $person);
-		Assert::same($exp, $person->favoriteNumbers);
+		Assert::same(99, $person->largestFavoriteNumber);
 
-		$person->favoriteNumbers = NULL;
-		Assert::null($person->favoriteNumbers);
+		$person->favoriteNumbers = $exp = [-10, 2, 3];
+		Assert::same(99, $person->largestFavoriteNumber);
 		$person = $this->persistPurgeAndLoad($this->orm->persons, $person);
-		Assert::null($person->favoriteNumbers);
+		Assert::same(3, $person->largestFavoriteNumber);
 	}
 
 }
 
-(new PgArrayTest($dic))->run();
+(new SelfUpdatingPropertyMapperTest($dic))->run();

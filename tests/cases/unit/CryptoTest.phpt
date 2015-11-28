@@ -8,7 +8,6 @@ namespace Mikulas\OrmExt\Tests;
 
 use Mikulas\OrmExt\Crypto;
 use Mockery;
-use NextrasTests\Orm\TestCase;
 use Tester\Assert;
 
 $dic = require_once __DIR__ . '/../../bootstrap.php';

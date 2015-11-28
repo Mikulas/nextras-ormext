@@ -1,15 +1,11 @@
 <?php
 
-/**
- * @testCase
- */
-
 namespace Mikulas\OrmExt\Tests\Documentation;
 
 use Mikulas\OrmExt\Tests\Person;
+use Mikulas\OrmExt\Tests\TestCase;
 use Mockery;
 use Nextras\Orm\Model\IModel;
-use NextrasTests\Orm\TestCase;
 use Tester\Assert;
 
 $dic = require_once __DIR__ . '/../../../bootstrap.php';

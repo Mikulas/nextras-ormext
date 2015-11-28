@@ -10,15 +10,10 @@ namespace NextrasTests\Orm;
 
 use Nextras\Orm\InvalidStateException;
 use Tester\Environment;
-use Tester\TestCase;
 
 
 class Helper
 {
-	const SECTION_MYSQL = 'mysql';
-	const SECTION_PGSQL = 'pgsql';
-	const SECTION_ARRAY = 'array';
-
 
 	public static function check()
 	{
@@ -34,17 +29,6 @@ class Helper
 	public static function isRunByRunner()
 	{
 		return getenv(Environment::RUNNER) === '1';
-	}
-
-
-	public static function isRunForListingMethods()
-	{
-		foreach ((array) $_SERVER['argv'] as $arg) {
-			if ($arg === '--method=' . TestCase::LIST_METHODS) {
-				return TRUE;
-			}
-		}
-		return FALSE;
 	}
 
 }

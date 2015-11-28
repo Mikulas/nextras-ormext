@@ -7,9 +7,9 @@ use Nextras\Orm\Entity\Entity;
 
 
 /**
- * @property      int         $id       {primary}
- * @property      Location    $location {container Proxy}
- * @property-read NULL|mixed  $content
+ * @property      int            $id       {primary}
+ * @property      NULL|Location  $location {container Proxy}
+ * @property-read NULL|mixed     $content
  */
 class Person extends Entity
 {

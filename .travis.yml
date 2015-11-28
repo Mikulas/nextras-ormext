@@ -3,6 +3,8 @@ php:
     - 5.6
     - 7.0
     - hhvm
+addons:
+    postgresql: "9.4"
 
 matrix:
     fast_finish: true
@@ -21,8 +23,7 @@ before_script:
     - if [ "$TRAVIS_PHP_VERSION" == "5.6" ]; then NTESTER_FLAGS="--coverage ./coverage.xml --coverage-src ./src"; else TESTER_FLAGS=""; fi
 
     # Create databases
-    - psql -c 'CREATE DATABASE nextras_orm_test' -U postgres
-    - mysql -e 'CREATE DATABASE nextras_orm_test;'
+    - psql -c 'CREATE DATABASE mikulas_ormext_test' -U postgres
 
     - mysql_tzinfo_to_sql /usr/share/zoneinfo | mysql -u root mysql
 

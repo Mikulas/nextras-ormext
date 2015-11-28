@@ -1,16 +1,17 @@
 <?php
 
-namespace NextrasTests\Orm;
+namespace Mikulas\OrmExt\Tests;
 
-use Mikulas\OrmExt\Tests\Model;
 use Mockery;
 use Nette\DI\Container;
+use Nextras\Orm\Entity\IEntity;
 use Nextras\Orm\Model\IModel;
+use Nextras\Orm\Repository\IRepository;
 use Nextras\Orm\TestHelper\TestCaseEntityTrait;
 use Tester;
 
 
-class TestCase extends Tester\TestCase
+abstract class TestCase extends Tester\TestCase
 {
 
 	use TestCaseEntityTrait;
@@ -19,7 +20,10 @@ class TestCase extends Tester\TestCase
 	protected $container;
 
 	/** @var Model */
-	protected $orm;
+	public $orm;
+
+	/** @var string */
+	protected $section;
 
 
 	public function __construct(Container $container)
@@ -32,6 +36,7 @@ class TestCase extends Tester\TestCase
 	{
 		parent::setUp();
 		$this->orm = $this->container->getByType(IModel::class);
+		Tester\Environment::lock("integration-pgsql", TEMP_DIR);
 	}
 
 
@@ -39,6 +44,22 @@ class TestCase extends Tester\TestCase
 	{
 		parent::tearDown();
 		Mockery::close();
+	}
+
+
+	/**
+	 * @param IRepository $repo
+	 * @param IEntity     $entity
+	 * @return IEntity
+	 */
+	protected function persistPurgeAndLoad(IRepository $repo, IEntity $entity)
+	{
+		$repo->persistAndFlush($entity);
+		$id = $entity->getPersistedId();
+
+		$repo->getModel(IModel::I_KNOW_WHAT_I_AM_DOING);
+
+		return $repo->getById($id);
 	}
 
 }

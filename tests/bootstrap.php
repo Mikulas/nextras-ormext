@@ -12,6 +12,7 @@ if (@!include __DIR__ . '/../vendor/autoload.php') {
 }
 
 require_once __DIR__ . '/inc/Helper.php';
+//require_once __DIR__ . '/inc/TestCase.php';
 
 
 define('TEMP_DIR', __DIR__ . '/tmp');

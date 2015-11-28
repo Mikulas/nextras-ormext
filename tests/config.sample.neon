@@ -4,9 +4,9 @@ extensions:
 dbal:
 	driver: pgsql
 	host: localhost
-	database: nextras_orm_test
+	database: mikulas_ormext_test
 	username: postgres
 	password:
 orm:
 	model: Mikulas\OrmExt\Tests\Model
-	testingMappers: true
+	testingMappers: false

@@ -10,8 +10,8 @@ use DateTimeImmutable;
 use DateTimeZone;
 use Mikulas\OrmExt\Pg\PgArray;
 use Mikulas\OrmExt\Pg\PgArrayException;
+use Mikulas\OrmExt\Tests\TestCase;
 use Mockery;
-use NextrasTests\Orm\TestCase;
 use Tester\Assert;
 
 $dic = require_once __DIR__ . '/../../../bootstrap.php';

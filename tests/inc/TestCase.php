@@ -4,6 +4,7 @@ namespace Mikulas\OrmExt\Tests;
 
 use Mockery;
 use Nette\DI\Container;
+use Nextras\Dbal\Connection;
 use Nextras\Orm\Entity\IEntity;
 use Nextras\Orm\Model\IModel;
 use Nextras\Orm\Repository\IRepository;
@@ -16,11 +17,14 @@ abstract class TestCase extends Tester\TestCase
 
 	use TestCaseEntityTrait;
 
-	/** @var Container */
-	protected $container;
-
 	/** @var Model */
 	public $orm;
+
+	/** @var Connection */
+	public $db;
+
+	/** @var Container */
+	protected $container;
 
 	/** @var string */
 	protected $section;
@@ -36,6 +40,7 @@ abstract class TestCase extends Tester\TestCase
 	{
 		parent::setUp();
 		$this->orm = $this->container->getByType(IModel::class);
+		$this->db = $this->container->getByType(Connection::class);
 		Tester\Environment::lock("integration-pgsql", TEMP_DIR);
 	}
 

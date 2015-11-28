@@ -10,3 +10,8 @@ dbal:
 orm:
 	model: Mikulas\OrmExt\Tests\Model
 	testingMappers: false
+services:
+	crypto: Mikulas\OrmExt\Crypto(%crypto.key%)
+parameters:
+	crypto:
+		key: "f166786326d565962e8523266c0e1d57" # hardcoded plaintext key is for testing only!

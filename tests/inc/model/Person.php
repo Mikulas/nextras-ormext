@@ -7,10 +7,11 @@ use Nextras\Orm\Entity\Entity;
 
 
 /**
- * @property      int            $id       {primary}
- * @property      bool           $isAdmin  {default FALSE}
- * @property      NULL|Location  $location {container Proxy}
- * @property-read NULL|mixed     $content
+ * @property      int           $id                    {primary}
+ * @property      bool          $isAdmin               {default FALSE}
+ * @property      NULL|Location $location              {container Proxy}
+ * @property      NULL|string   $creditCardNumber      encrypted
+ * @property-read NULL|mixed    $content
  */
 class Person extends Entity
 {

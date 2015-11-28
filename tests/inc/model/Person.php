@@ -8,6 +8,7 @@ use Nextras\Orm\Entity\Entity;
 
 /**
  * @property      int            $id       {primary}
+ * @property      bool           $isAdmin  {default FALSE}
  * @property      NULL|Location  $location {container Proxy}
  * @property-read NULL|mixed     $content
  */

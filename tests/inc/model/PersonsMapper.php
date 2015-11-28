@@ -3,10 +3,9 @@
 namespace Mikulas\OrmExt\Tests;
 
 use Mikulas\OrmExt\MappingFactory;
-use Mikulas\OrmExt\Pg\SelfUpdatingPropertyMapper;
 
 
-class PersonsMapper extends SelfUpdatingPropertyMapper
+class PersonsMapper extends Mapper
 {
 
 	protected function createStorageReflection()

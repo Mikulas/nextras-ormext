@@ -27,6 +27,9 @@ class PersonsMapper extends Mapper
 		$factory = new MappingFactory(parent::createStorageReflection());
 		$factory->addJsonMapping('content');
 		$factory->addCryptoMapping('creditCardNumber', $this->crypto);
+		$factory->addIntArrayMapping('favoriteNumbers');
+
+		$factory->addIntArrayMapping('xxx'); // TODO throw
 
 		return $factory->getReflection();
 	}

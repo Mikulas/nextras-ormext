@@ -8,5 +8,6 @@ CREATE TABLE persons (
 	"isAdmin" BOOL DEFAULT FALSE NOT NULL,
 	"location" location,
 	"content" TEXT,
-	"creditCardNumber_encrypted" TEXT
+	"creditCardNumber_encrypted" TEXT,
+	"favoriteNumbers" INT[]
 );

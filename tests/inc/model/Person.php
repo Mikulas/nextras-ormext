@@ -11,6 +11,7 @@ use Nextras\Orm\Entity\Entity;
  * @property      bool          $isAdmin               {default FALSE}
  * @property      NULL|Location $location              {container Proxy}
  * @property      NULL|string   $creditCardNumber      encrypted
+ * @property      NULL|int[]    $favoriteNumbers
  * @property-read NULL|mixed    $content
  */
 class Person extends Entity

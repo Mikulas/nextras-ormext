@@ -4,6 +4,9 @@ namespace Mikulas\OrmExt;
 
 use Mikulas\OrmExt\Pg\PgArray;
 use Nette\Utils\Json;
+use Nextras\Orm\Entity\Reflection\EntityMetadata;
+use Nextras\Orm\InvalidArgumentException;
+use Nextras\Orm\Mapper\Dbal\StorageReflection\IStorageReflection;
 use Nextras\Orm\Mapper\Dbal\StorageReflection\StorageReflection;
 
 
@@ -11,23 +14,30 @@ class MappingFactory
 {
 
 	/** @var StorageReflection */
-	private $reflection;
+	private $storageReflection;
+
+	/** @var EntityMetadata */
+	private $entityMetadata;
 
 
-	public function __construct(StorageReflection $reflection)
+	public function __construct(IStorageReflection $storageReflection, EntityMetadata $entityMetadata)
 	{
-		$this->reflection = $reflection;
+		$this->storageReflection = $storageReflection;
+		$this->entityMetadata = $entityMetadata;
 	}
 
 
 	/**
 	 * @param string $propertyName
+	 * @throws InvalidPropertyException
 	 */
 	public function addJsonMapping($propertyName)
 	{
-		$this->reflection->addMapping(
+		$this->validateProperty($propertyName);
+
+		$this->storageReflection->addMapping(
 			$propertyName,
-			$this->reflection->convertEntityToStorageKey($propertyName),
+			$this->storageReflection->convertEntityToStorageKey($propertyName),
 			function ($value) {
 				return Json::decode($value, Json::FORCE_ARRAY);
 			},
@@ -42,12 +52,15 @@ class MappingFactory
 	 * @param string $propertyName
 	 * @param Crypto $crypto
 	 * @param string $sqlPostfix
+	 * @throws InvalidPropertyException
 	 */
 	public function addCryptoMapping($propertyName, Crypto $crypto, $sqlPostfix = '_encrypted')
 	{
-		$this->reflection->addMapping(
+		$this->validateProperty($propertyName);
+
+		$this->storageReflection->addMapping(
 			$propertyName,
-			$this->reflection->convertEntityToStorageKey($propertyName) . $sqlPostfix,
+			$this->storageReflection->convertEntityToStorageKey($propertyName) . $sqlPostfix,
 			function ($garble) use ($crypto) {
 				return $garble === NULL ? NULL : $crypto->decrypt($garble);
 			},
@@ -62,12 +75,15 @@ class MappingFactory
 	 * @param string   $propertyName
 	 * @param callable $toEntityTransform
 	 * @param callable $toSqlTransform
+	 * @throws InvalidPropertyException
 	 */
 	public function addGenericArrayMapping($propertyName, callable $toEntityTransform, callable $toSqlTransform)
 	{
-		$this->reflection->addMapping(
+		$this->validateProperty($propertyName);
+
+		$this->storageReflection->addMapping(
 			$propertyName,
-			$this->reflection->convertEntityToStorageKey($propertyName),
+			$this->storageReflection->convertEntityToStorageKey($propertyName),
 			function ($value) use ($toEntityTransform) {
 				return PgArray::parse($value, $toEntityTransform);
 			},
@@ -80,6 +96,7 @@ class MappingFactory
 
 	/**
 	 * @param string $propertyName
+	 * @throws InvalidPropertyException
 	 */
 	public function addStringArrayMapping($propertyName)
 	{
@@ -96,6 +113,7 @@ class MappingFactory
 
 	/**
 	 * @param string $propertyName
+	 * @throws InvalidPropertyException
 	 */
 	public function addIntArrayMapping($propertyName)
 	{
@@ -113,6 +131,7 @@ class MappingFactory
 	/**
 	 * Expects normalized dates without timezones
 	 * @param string $propertyName
+	 * @throws InvalidPropertyException
 	 */
 	public function addDateTimeArrayMapping($propertyName)
 	{
@@ -128,11 +147,25 @@ class MappingFactory
 
 
 	/**
+	 * @param string $propertyName
+	 * @throws InvalidPropertyException
+	 */
+	public function validateProperty($propertyName)
+	{
+		try {
+			$this->entityMetadata->getProperty($propertyName);
+		} catch (InvalidArgumentException $e) {
+			throw InvalidPropertyException::createNonexistentProperty($propertyName, $e);
+		}
+	}
+
+
+	/**
 	 * @return StorageReflection
 	 */
-	public function getReflection()
+	public function getStorageReflection()
 	{
-		return $this->reflection;
+		return $this->storageReflection;
 	}
 
 }

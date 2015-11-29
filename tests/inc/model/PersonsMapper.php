@@ -3,7 +3,6 @@
 namespace Mikulas\OrmExt\Tests;
 
 use Mikulas\OrmExt\Crypto;
-use Mikulas\OrmExt\MappingFactory;
 use Nette\Caching\IStorage;
 use Nextras\Dbal\Connection;
 
@@ -30,12 +29,12 @@ class PersonsMapper extends Mapper
 
 	protected function createStorageReflection()
 	{
-		$factory = new MappingFactory(parent::createStorageReflection());
+		$factory = $this->createMappingFactory();
 		$factory->addJsonMapping('content');
 		$factory->addCryptoMapping('creditCardNumber', $this->crypto);
 		$factory->addIntArrayMapping('favoriteNumbers');
 
-		return $factory->getReflection();
+		return $factory->getStorageReflection();
 	}
 
 }

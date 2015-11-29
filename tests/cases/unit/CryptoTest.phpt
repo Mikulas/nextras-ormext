@@ -1,9 +1,5 @@
 <?php
 
-/**
- * @testCase
- */
-
 namespace Mikulas\OrmExt\Tests;
 
 use Mikulas\OrmExt\Crypto;

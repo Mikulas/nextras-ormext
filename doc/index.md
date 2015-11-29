@@ -30,7 +30,7 @@ class NotesMapper extends Mapper
 
 	protected function createStorageReflection()
 	{
-		$factory = new MappingFactory(parent::createStorageReflection());
+		$factory = new MappingFactory(parent::createStorageReflection(), $this->getRepository()->getEntityMetadata());
 		$factory->addJsonMapping('content');
 
 		return $factory->getReflection();
@@ -99,7 +99,7 @@ class UsersMapper extends Mapper
 
 	protected function createStorageReflection()
 	{
-		$factory = new MappingFactory(parent::createStorageReflection());
+		$factory = new MappingFactory(parent::createStorageReflection(), $this->getRepository()->getEntityMetadata());
 		$factory->addCryptoMapping('email', $this->crypto);
 
 		return $factory->getReflection();
@@ -149,7 +149,7 @@ class BooksMapper extends Mapper
 
 	protected function createStorageReflection()
 	{
-		$factory = new MappingFactory(parent::createStorageReflection());
+		$factory = new MappingFactory(parent::createStorageReflection(), $this->getRepository()->getEntityMetadata());
 		$factory->addStringArrayMapping('authors');
 
 		return $factory->getReflection();
@@ -350,8 +350,28 @@ $doughnut->computedProperty; // 15
 
 `StorageReflection` decorator. Simplifies mapping definitions.
 
+Note that Orm does silently ignores (nonexistent) property names. All calls to `MappingFactory` validate
+ property names and throw, so while it's optional, it's highly recommended to use `MappingFactory`.
+
 - [`MappingFactory`](https://codedoc.pub/Mikulas/nextras-ormext/master/class-Mikulas.OrmExt.MappingFactory.html)
 
 ### `MappingFactory` Example
+
+While almost a decorator for `IMapper`, to validate property names `MappingFactory` must also be constructed with property
+ metadata. Having a mapping factory factory such as this is advised:
+
+```php
+abstract class AMapper extends BaseMapper {
+
+	/**
+	 * @return MappingFactory
+	 */
+	protected function createMappingFactory()
+	{
+		return new MappingFactory(parent::createStorageReflection(), $this->getRepository()->getEntityMetadata());
+	}
+
+}
+```
 
 See [`Json` Example](#json-example) and other snippets on this page.

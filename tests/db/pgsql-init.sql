@@ -8,6 +8,7 @@ CREATE TABLE persons (
 	"isAdmin" BOOL DEFAULT FALSE NOT NULL,
 	"location" location,
 	"content" TEXT,
+	"maritalStatus" TEXT,
 	"creditCardNumber_encrypted" TEXT,
 	"favoriteNumbers" INT[] CONSTRAINT at_least_one_number CHECK (array_length("favoriteNumbers", 1) > 0),
 	"largestFavoriteNumber" INT

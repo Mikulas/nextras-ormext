@@ -14,6 +14,7 @@ Requires dev version of [nextras/orm](https://github.com/nextras/orm).
 - [`PgArray`](doc/index.md#pgarray)
 - [`CompositeType`](doc/index.md#compositetype)
 - [`SelfUpdatingPropertyMapper`](doc/index.md#selfupdatingpropertymapper)
+- [`StatefulProperty`](doc/index.md#statefulproperty)
 - [`MappingFactory`](doc/index.md#mappingfactory)
 
 ## Composer

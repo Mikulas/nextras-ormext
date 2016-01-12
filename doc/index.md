@@ -346,6 +346,82 @@ $repo->persist($doughnut);
 $doughnut->computedProperty; // 15
 ```
 
+## `StatefulProperty`
+
+Only use usable with optional dependency [`eyohang/finite`](https://github.com/yohang/Finite) with version `~1.1`.
+
+- [`StatefulProperty`](https://codedoc.pub/Mikulas/nextras-ormext/master/class-Mikulas.OrmExt.StatefulProperty.html)
+
+### `StatefulProperty` Example
+
+```php
+class MaritalStatus extends StatefulProperty
+{
+
+	# states
+	const SINGLE = 'single';
+	const MARRIED = 'married';
+	const DIVORCED = 'divorced';
+	const WIDOWED = 'widowed';
+
+	# transitions
+	const TR_MARRY = 'marry';
+	const TR_DIVORCE = 'divorce';
+	const TR_WIDOW = 'widow';
+
+
+	protected function getStates()
+	{
+		return [
+			self::SINGLE => ['type' => StateInterface::TYPE_INITIAL],
+			self::MARRIED => ['type' => StateInterface::TYPE_NORMAL],
+			self::DIVORCED => ['type' => StateInterface::TYPE_NORMAL],
+			self::WIDOWED => ['type' => StateInterface::TYPE_NORMAL],
+		];
+	}
+
+	protected function getTransitions()
+	{
+		return [
+			self::TR_MARRY => [
+				'from' => [self::SINGLE, self::DIVORCED, self::WIDOWED],
+				'to' => self::MARRIED,
+			],
+			self::TR_DIVORCE => [
+				'from' => [self::MARRIED],
+				'to' => self::DIVORCED,
+			],
+			self::TR_WIDOW => [
+				'from' => [self::MARRIED],
+				'to' => self::WIDOWED,
+			],
+		];
+	}
+
+}
+```
+
+```php
+use Mikulas\OrmExt\Pg\CompositeTypePropertyProxy as Proxy;
+
+/**
+ * @property      int           $id                    {primary}
+ * @property      MaritalStatus $maritalStatus         {container Proxy}
+ */
+class Person extends Entity { }
+```
+
+#### Usage
+
+```php
+$person = new Person();
+$person->maritalStatus->getFiniteState(); // single
+$person->maritalStatus->can('divorce'); // false, single person cannot divorce
+$person->maritalStatus->can('marry'); // true, single person can marry
+$person->maritalStatus->apply('marry');
+$person->maritalStatus->getFiniteState(); // married
+```
+
 ## `MappingFactory`
 
 `StorageReflection` decorator. Simplifies mapping definitions.

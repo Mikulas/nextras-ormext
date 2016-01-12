@@ -16,11 +16,15 @@
 		"nette/tokenizer": "~2.2",
 		"nette/utils": "~2.2"
 	},
+	"suggest": {
+		"yohang/finite": "Enables state machine container property (required version: ~1.1)"
+	},
 	"require-dev": {
 		"tracy/tracy": "~2.3",
 		"nette/bootstrap": "~2.3",
 		"nette/tester": "~1.6 != 1.6.1",
-		"mockery/mockery": "~0.9"
+		"mockery/mockery": "~0.9",
+		"yohang/finite": "~1.1"
 	},
 	"autoload": {
 		"psr-4": { "Mikulas\\OrmExt\\": "src/" }

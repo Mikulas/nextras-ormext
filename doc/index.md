@@ -5,6 +5,7 @@
 - [`PgArray`](#pgarray)
 - [`CompositeType`](#compositetype)
 - [`SelfUpdatingPropertyMapper`](#selfupdatingpropertymapper)
+- [`StatefulProperty`](#statefulproperty)
 - [`MappingFactory`](#mappingfactory)
 
 [Api documentation](https://codedoc.pub/Mikulas/nextras-ormext/master/index.html)

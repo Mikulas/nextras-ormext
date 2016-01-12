@@ -35,8 +35,7 @@ abstract class PropertyProxy implements IPropertyContainer
 	 */
 	protected function onModify()
 	{
-		$cb = $this->setModified;
-		$cb();
+		call_user_func($this->setModified);
 	}
 
 
@@ -60,10 +59,7 @@ abstract class PropertyProxy implements IPropertyContainer
 	 */
 	public function setInjectedValue($store)
 	{
-		if ($store !== NULL && ! $store instanceof IPropertyDataStore) {
-			throw 'a'; // TODO
-		}
-
+		assert($store === NULL || $store instanceof IPropertyDataStore);
 		if ($store instanceof IPropertyDataStore) {
 			$store->addOnModifiedListener(function() {
 				$this->onModify();

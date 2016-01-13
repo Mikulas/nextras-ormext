@@ -17,6 +17,7 @@
 		"nette/utils": "~2.2"
 	},
 	"suggest": {
+		"ext-mcrypt": "Enables Crypto class and MappingFactory::addCryptoMapping",
 		"yohang/finite": "Enables state machine container property (required version: ~1.1)"
 	},
 	"require-dev": {

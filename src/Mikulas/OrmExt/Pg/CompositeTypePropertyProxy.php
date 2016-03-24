@@ -47,7 +47,7 @@ class CompositeTypePropertyProxy extends PropertyProxy
 			throw new \Exception('IPropertyDataStore::parse must return instance of IPropertyDataStore'); // TODO
 		}
 
-		$this->setInjectedValue($store);
+		$this->setDataStore($store);
 	}
 
 

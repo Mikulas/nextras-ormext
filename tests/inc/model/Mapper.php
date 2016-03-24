@@ -16,7 +16,7 @@ class Mapper extends SelfUpdatingPropertyMapper
 			$this->connection,
 			$this->getTableName(),
 			$this->getRepository()->getEntityMetadata()->getPrimaryKey(),
-			$this->cacheStorage
+			$this->cache
 		);
 	}
 

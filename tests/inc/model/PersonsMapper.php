@@ -3,7 +3,7 @@
 namespace Mikulas\OrmExt\Tests;
 
 use Mikulas\OrmExt\Crypto;
-use Nette\Caching\IStorage;
+use Nette\Caching\Cache;
 use Nextras\Dbal\Connection;
 
 
@@ -14,9 +14,9 @@ class PersonsMapper extends Mapper
 	private $crypto;
 
 
-	public function __construct(Connection $connection, IStorage $cacheStorage, Crypto $crypto)
+	public function __construct(Connection $connection, Cache $cache, Crypto $crypto)
 	{
-		parent::__construct($connection, $cacheStorage);
+		parent::__construct($connection, $cache);
 		$this->crypto = $crypto;
 	}
 

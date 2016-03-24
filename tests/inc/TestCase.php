@@ -62,7 +62,7 @@ abstract class TestCase extends Tester\TestCase
 		$repo->persistAndFlush($entity);
 		$id = $entity->getPersistedId();
 
-		$repo->getModel(IModel::I_KNOW_WHAT_I_AM_DOING);
+		$repo->getModel()->clearIdentityMapAndCaches(IModel::I_KNOW_WHAT_I_AM_DOING);
 
 		return $repo->getById($id);
 	}

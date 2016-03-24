@@ -59,15 +59,8 @@ abstract class PropertyProxy implements IPropertyContainer
 	 */
 	public function setInjectedValue($store)
 	{
-		assert($store === NULL || $store instanceof IPropertyDataStore);
-		if ($store instanceof IPropertyDataStore) {
-			$store->addOnModifiedListener(function() {
-				$this->onModify();
-			});
-		}
+		$this->setDataStore($store);
 		$this->onModify();
-
-		$this->dataStore = $store;
 	}
 
 
@@ -87,6 +80,23 @@ abstract class PropertyProxy implements IPropertyContainer
 	public function hasInjectedValue()
 	{
 		return $this->dataStore !== NULL;
+	}
+
+
+	/**
+	 * @internal
+	 * @param NULL|IPropertyDataStore $store
+	 */
+	protected function setDataStore($store)
+	{
+		assert($store === NULL || $store instanceof IPropertyDataStore);
+		if ($store instanceof IPropertyDataStore) {
+			$store->addOnModifiedListener(function() {
+				$this->onModify();
+			});
+		}
+
+		$this->dataStore = $store;
 	}
 
 }

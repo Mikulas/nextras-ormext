@@ -25,9 +25,19 @@ class CompositeTypeTest extends TestCase
 		$person->location = new Location('street', 12);
 		Assert::same($person->location->getStreet(), 'street');
 		Assert::same($person->location->getHouseNumber(), 12);
+		Assert::true($person->isModified('location'));
+
 		$person = $this->persistPurgeAndLoad($this->orm->persons, $person);
 		Assert::same($person->location->getStreet(), 'street');
 		Assert::same($person->location->getHouseNumber(), 12);
+		Assert::false($person->isModified('location'));
+
+		$person->location->setStreet('different street');
+		Assert::true($person->isModified('location'));
+
+		$person = $this->persistPurgeAndLoad($this->orm->persons, $person);
+		$person->location = new Location('yet another street', 17);
+		Assert::true($person->isModified('location'));
 
 		$person->location = NULL;
 		Assert::null($person->location);

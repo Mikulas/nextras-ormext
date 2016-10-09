@@ -32,12 +32,12 @@ abstract class StatefulProperty extends ModifiableDataStore implements StatefulI
 		$this->stateMachine = new StateMachine($this);
 		$this->getLoader()->load($this->stateMachine);
 
+		$this->setFiniteState($state ?: $this->getInitialState());
+		$this->onModify();
+
 		// intentionally set after ArrayLoader::load, as it sets symfony accessor
 		$this->stateMachine->setStateAccessor(new StatefulPropertyStateAccessor);
 		$this->stateMachine->initialize();
-
-		$this->setFiniteState($state ?: $this->getInitialState());
-		$this->onModify();
 	}
 
 

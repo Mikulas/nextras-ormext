@@ -35,7 +35,7 @@ class MappingFactory
 	{
 		$this->validateProperty($propertyName);
 
-		$this->storageReflection->addMapping(
+		$this->storageReflection->setMapping(
 			$propertyName,
 			$this->storageReflection->convertEntityToStorageKey($propertyName),
 			function ($value) {
@@ -58,7 +58,7 @@ class MappingFactory
 	{
 		$this->validateProperty($propertyName);
 
-		$this->storageReflection->addMapping(
+		$this->storageReflection->setMapping(
 			$propertyName,
 			$this->storageReflection->convertEntityToStorageKey($propertyName) . $sqlPostfix,
 			function ($garble) use ($crypto) {
@@ -81,7 +81,7 @@ class MappingFactory
 	{
 		$this->validateProperty($propertyName);
 
-		$this->storageReflection->addMapping(
+		$this->storageReflection->setMapping(
 			$propertyName,
 			$this->storageReflection->convertEntityToStorageKey($propertyName),
 			function ($value) use ($toEntityTransform) {

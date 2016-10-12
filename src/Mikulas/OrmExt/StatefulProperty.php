@@ -128,6 +128,18 @@ abstract class StatefulProperty extends ModifiableDataStore implements StatefulI
 	}
 
 
+	/**
+	 * Returns if the current state has given property.
+	 *
+	 * @param string $property
+	 * @return bool
+	 */
+	public function has($property)
+	{
+		return $this->stateMachine->getCurrentState()->has($property);
+	}
+
+
 	# StatefulInterface conformation
 
 	public function getFiniteState()

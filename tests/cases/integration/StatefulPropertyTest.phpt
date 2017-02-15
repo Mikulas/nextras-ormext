@@ -36,6 +36,7 @@ class StatefulPropertyTest extends TestCase
 		Assert::type(MaritalStatus::class, $person->maritalStatus);
 		self::assertState(MaritalStatus::SINGLE, $person);
 
+		Assert::true($person->maritalStatus->has(MaritalStatus::PR_CAN_LOOK_FOR_A_RELATIONSHIP));
 		Assert::true($person->maritalStatus->can(MaritalStatus::TR_MARRY));
 		Assert::false($person->maritalStatus->can(MaritalStatus::TR_WIDOW));
 
@@ -47,10 +48,19 @@ class StatefulPropertyTest extends TestCase
 		$person->maritalStatus->apply(MaritalStatus::TR_MARRY);
 		self::assertState(MaritalStatus::MARRIED, $person);
 
+		Assert::false($person->maritalStatus->has(MaritalStatus::PR_CAN_LOOK_FOR_A_RELATIONSHIP));
+
 		Assert::exception(function() use ($person) {
 			$person->maritalStatus->setFiniteState('bogus');
 		}, StateException::class);
 		self::assertState(MaritalStatus::MARRIED, $person);
+	}
+
+
+	public function testCreateStatusWithNonInitialState()
+	{
+		$status = new MaritalStatus(MaritalStatus::MARRIED);
+		Assert::same(MaritalStatus::MARRIED, $status->getStateMachine()->getCurrentState()->getName());
 	}
 
 }

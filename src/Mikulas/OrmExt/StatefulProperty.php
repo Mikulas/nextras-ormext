@@ -32,12 +32,12 @@ abstract class StatefulProperty extends ModifiableDataStore implements StatefulI
 		$this->stateMachine = new StateMachine($this);
 		$this->getLoader()->load($this->stateMachine);
 
+		$this->setFiniteState($state ?: $this->getInitialState());
+		$this->onModify();
+
 		// intentionally set after ArrayLoader::load, as it sets symfony accessor
 		$this->stateMachine->setStateAccessor(new StatefulPropertyStateAccessor);
 		$this->stateMachine->initialize();
-
-		$this->setFiniteState($state ?: $this->getInitialState());
-		$this->onModify();
 	}
 
 
@@ -125,6 +125,18 @@ abstract class StatefulProperty extends ModifiableDataStore implements StatefulI
 	public function apply($transitionName, array $parameters = [])
 	{
 		return $this->stateMachine->apply($transitionName, $parameters);
+	}
+
+
+	/**
+	 * Returns if the current state has given property.
+	 *
+	 * @param string $property
+	 * @return bool
+	 */
+	public function has($property)
+	{
+		return $this->stateMachine->getCurrentState()->has($property);
 	}
 
 

@@ -20,6 +20,8 @@ class MaritalStatus extends StatefulProperty
 	const TR_DIVORCE = 'divorce';
 	const TR_WIDOW = 'widow';
 
+	const PR_CAN_LOOK_FOR_A_RELATIONSHIP = 'can-look-for-a-relationship';
+
 
 	/**
 	 * @return array
@@ -30,7 +32,7 @@ class MaritalStatus extends StatefulProperty
 		return [
 			self::SINGLE => [
 				'type' => StateInterface::TYPE_INITIAL,
-				'properties' => [],
+				'properties' => [self::PR_CAN_LOOK_FOR_A_RELATIONSHIP => TRUE],
 			],
 			self::MARRIED => [
 				'type' => StateInterface::TYPE_NORMAL,
@@ -38,11 +40,11 @@ class MaritalStatus extends StatefulProperty
 			],
 			self::DIVORCED => [
 				'type' => StateInterface::TYPE_NORMAL,
-				'properties' => [],
+				'properties' => [self::PR_CAN_LOOK_FOR_A_RELATIONSHIP => TRUE],
 			],
 			self::WIDOWED => [
 				'type' => StateInterface::TYPE_NORMAL,
-				'properties' => [],
+				'properties' => [self::PR_CAN_LOOK_FOR_A_RELATIONSHIP => TRUE],
 			],
 		];
 	}

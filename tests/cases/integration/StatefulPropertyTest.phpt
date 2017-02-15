@@ -53,6 +53,13 @@ class StatefulPropertyTest extends TestCase
 		self::assertState(MaritalStatus::MARRIED, $person);
 	}
 
+
+	public function testCreateStatusWithNonInitialState()
+	{
+		$status = new MaritalStatus(MaritalStatus::MARRIED);
+		Assert::same(MaritalStatus::MARRIED, $status->getStateMachine()->getCurrentState()->getName());
+	}
+
 }
 
 (new StatefulPropertyTest($dic))->run();
